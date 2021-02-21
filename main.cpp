@@ -154,44 +154,17 @@ void rayCasting()
 		// filling symbol depend on distance to wall
 		wchar_t view = ' ';
 		if (dist < 0.7)
-		{
 			view = '#';
-		}
-		else
-		{
-			if (dist < 1.0)
-			{
-				view = '@';
-			}
-			else
-			{
-				if (dist < 1.4)
-				{
-					view = 'O';
-				}
-				else
-				{
-					if (dist < 2.0)
-					{
-						view = 'o';
-					}
-					else
-					{
-						if (dist < 3.0)
-						{
-							view = '*';
-						}
-						else
-						{
-							if (dist < 4.0)
-							{
-								view = '.';
-							}
-						}
-					}
-				}
-			}
-		}
+		else if (dist < 1.0)
+			view = '@';
+		else if (dist < 1.4)
+			view = 'O';
+		else if (dist < 2.0)
+			view = 'o';
+		else if (dist < 3.0)
+			view = '*';
+		else if (dist < 4.0)
+			view = '.';
 		
 		// size of wall. more distance all walls are smaller
 		int sizeWall = hScreen / (dist*2.0);
@@ -216,8 +189,8 @@ void rayCasting()
 		{
 			screen[i + j * wScreen] = '-';
 		}
-		}
 	}
+}
 
 	void run()
 	{
@@ -314,7 +287,7 @@ void rayCasting()
 	}
 };
 
-
+ 
 int main()
 {
 	std::cout << "Welcome to main menu!" << std::endl;
