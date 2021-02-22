@@ -89,9 +89,6 @@ void draw()
 
 void rayCasting()
 {
-	// distances for corner. it's not working very well
-	double dist_1 = 1e10;
-	double dist_2 = 2e10;
 	// drawing every columns of screen
 	for (int i = 0; i < wScreen; i++)
 	{
@@ -131,26 +128,6 @@ void rayCasting()
 		// correction for fish eye
 		dist *= cos(aRay - aPlayer);
 
-		// for drawing corners. not work very well
-		if ((dist_1 < dist) && (dist_1 < dist_2))
-		{
-   		    wchar_t view = 'I';
-			int sizeWall = hScreen / (dist * 2.0);
-			if (sizeWall > hScreen / 2)
-				sizeWall = hScreen / 2;
-			if (sizeWall < 2)
-				sizeWall = 2;
-			int up = hScreen / 2 - sizeWall;
-			int down = hScreen / 2 + sizeWall;
-
-			for (int j = up; j < down; j++)
-			{
-				screen[i - 1 + j * wScreen] = view;
-			}
-
-		}
-		dist_2 = dist_1;
-		dist_1 = dist;
 		// filling symbol depend on distance to wall
 		wchar_t view = ' ';
 		if (dist < 0.7)
@@ -165,6 +142,12 @@ void rayCasting()
 			view = '*';
 		else if (dist < 4.0)
 			view = '.';
+
+		// it makes (x.0 y.0) points to 'I' for better drawing corners
+		if ( (fabs(xRay - int(xRay+0.5)) < 1e-2* dist) && (fabs(yRay - int(yRay+0.5)) < 1e-2*dist))
+		{
+			view = 'I';
+		}
 		
 		// size of wall. more distance all walls are smaller
 		int sizeWall = hScreen / (dist*2.0);
